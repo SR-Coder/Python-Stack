@@ -17,3 +17,4 @@ class User(models.Model):
         s += f"last_name: {self.last_name}\n"
         s += f"email: {self.email}\n"
         return s
+
