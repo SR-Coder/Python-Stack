@@ -36,6 +36,6 @@ class Review(models.Model):
 # review2 = Review.objects.create(rating=1.5, content='Looks bad', reviewer=user1)
 
 # review1.content # returns 'Looks Good'
-# review1.reviewer # retuns the whole user object that is related
+# review1.reviewer # returns the whole user object that is related
 
 # user1.reviews.all() # returns a list of reviews [review1, review2]
