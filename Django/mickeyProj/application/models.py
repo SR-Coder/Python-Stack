@@ -10,6 +10,8 @@ class User(models.Model):
     created_at = models.DateTimeField(auto_now_add=True) # (Automatically Created)
     updated_at = models.DateTimeField(auto_now=True) # (Automatically Created)
     # reviews.all() (phantom property)
+    # trips.all()
+    # trips_joined.all()
 
     def __str__(self):
         s = '\n'
@@ -27,6 +29,14 @@ class Review(models.Model):
     updated_at = models.DateTimeField(auto_now=True) # (Automatically Created)
 
     reviewer = models.ForeignKey(User, related_name='reviews', on_delete=models.CASCADE)
+
+
+class Trip(models.Model):
+    location = models.CharField(max_length=100)
+    description = models.TextField()
+    date = models.DateField()
+    organizer = models.ForeignKey(User, related_name='trips', on_delete=models.CASCADE)
+    users_joined = models.ManyToManyField(User, related_name = 'trips_joined') # using the .all()
 
 
 # user1 = User.objects.create(first_name='Shayan', last_name='Valaie', email='s@v.com', password='asdfasdf')

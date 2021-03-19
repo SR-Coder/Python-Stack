@@ -7,20 +7,53 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
 </head>
-<body>
-    <h1>Ha HA... (in mickey voice) Awesome job {{thisUser.first_name}} {{thisUser.last_name}}, you did it!!</h1>
-    <a class="btn btn-primary" href="/logout">Logout</a>
+<body class="container">
+    <div class="row">
 
-    <h2>You guys are great</h2>
-    <ul>
-        {% for name in people %}
-            <li>
-                <a href="/congrats/{{name}}">{{name}}</a>
-            </li>
-        {% endfor %}
-    </ul>
+        <h1>Ha HA... (in mickey voice) Awesome job {{thisUser.first_name}} {{thisUser.last_name}}, you did it!!</h1>
+        <a class="btn btn-primary" href="/logout">Logout</a>
+        
+        <a class="btn btn-primary" href="/newTrip">New Trip</a>
+    </div>
+    
+    <div class="row">
+        <div class="col">
 
-    <h1>{{ request.session.sEmail }}</h1>
+            <h2>My Joined Trips</h2>
+            <ul>
+                {% for myTrip in thisUser.trips_joined.all %}
+                <li>
+                    <p>{{ myTrip.location }}</p>
+                    <p>{{ myTrip.description }}</p>
+                    <p>{{ myTrip.date }}</p>
+                    <p>{{ myTrip.organizer.first_name }} {{ myTrip.organizer.last_name }}</p>
+                    <a href="/cancelTrip/{{myTrip.id}}">This is not for me!!</a>
+                </li>
+                {% endfor %}
+            </ul>
+            
+            <h1>{{ request.session.sEmail }}</h1>
+        </div>
+        <div class="col">
+            <h2>Trips</h2>
+            <ul>
+                {% for trip in allTrips %}
+                {% if thisUser not in trip.users_joined.all %}
+                
+
+                <li>
+                    <p>{{ trip.location }}</p>
+                    <p>{{ trip.description }}</p>
+                    <p>{{ trip.date }}</p>
+                    <p>{{ trip.organizer.first_name }} {{ trip.organizer.last_name }}</p>
+                    <a href="/joinTrip/{{trip.id}}">Join</a>
+                </li>
+                
+                {% endif %}
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
 
 
 </body>
