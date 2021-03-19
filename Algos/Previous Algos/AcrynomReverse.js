@@ -41,7 +41,7 @@ function acronymize(wordsStr) {
   let acronym = "";
   const len = wordsStr.length;
 
-  for (let i = 0; i < len; i++) {
+for (let i = 0; i < len; i++) {
     while (wordsStr[i] === " " && i < len) {
       i++; // skip spaces, handles multiple spaces
     }
