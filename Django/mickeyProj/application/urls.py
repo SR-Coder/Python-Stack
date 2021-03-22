@@ -17,4 +17,7 @@ urlpatterns =[
     path('createNewTrip', views.createTrip),
     path('joinTrip/<int:tripID>', views.joinTrip),
     path('cancelTrip/<int:tripID>', views.cancelTrip),
+
+
+    # path('wipeDB', views.wipeDB),
 ]   

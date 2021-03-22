@@ -21,6 +21,7 @@
                     <input class="form-control" type="text" name="lName" placeholder="Last Name" >
                     <input class="form-control" type="text" name="email" placeholder="Email">
                     <input class="form-control" type="password" name="password" placeholder="Password">
+                    <input class="form-control" type="password" name="chkPassword" placeholder="Confirm Password">
                     <button class="btn btn-dark" type="submit">Register</button>
                 </form>
             </div>
@@ -34,6 +35,17 @@
 
                 </form>
             </div>
+        </div>
+        <div class="row">
+            {% if messages %}
+            <ul class="messages">
+                {% for message in messages %}
+                    <li>
+                        {{ message }}
+                    </li>
+                {% endfor %}
+            </ul>
+            {% endif %}
         </div>
     </div>
 </body>

@@ -1,5 +1,7 @@
 from django.shortcuts import render, redirect, HttpResponse
 from . models import User, Review, Trip
+from django.contrib import messages
+import bcrypt
 
 # Create your views here.
 # DISPLAY METHODS
@@ -31,11 +33,24 @@ def getEmail(request):
     return redirect('/form')
 
 def register(request):
+    # validations
+    errors = User.objects.registration_validator(request.POST)
+    if len(errors) > 0:
+        for key, value in errors.items():
+            messages.error(request, value)
+        return redirect('/')
+
+    # password hashing
+    password = request.POST['password']
+    pw_hash = bcrypt.hashpw(password.encode(), bcrypt.gensalt()).decode()
+    print(pw_hash)
+
+    # creating a new user
     new_user = User.objects.create(
         first_name=request.POST['fName'], 
         last_name=request.POST['lName'],
         email=request.POST['email'],
-        password=request.POST['password'] 
+        password=pw_hash 
         )
     request.session['user_id'] = new_user.id
     return redirect('/congrats')
@@ -46,11 +61,13 @@ def login(request):
     print(user_matching_email)
 
     if user_matching_email is not None:
-        if user_matching_email.password == request.POST['password']:
+        # if user_matching_email.password == request.POST['password']:
+        if bcrypt.checkpw(request.POST['password'].encode(), user_matching_email.password.encode()):
             request.session['user_id'] = user_matching_email.id
             return redirect('/congrats')
         else:
             print('password incorrect')
+            messages.add_message(request, messages.ERROR, 'Invalid Credentials.')
             return redirect('/')
     else:
         print('no user found')
@@ -86,3 +103,7 @@ def cancelTrip(request, tripID):
     tripToQuit.users_joined.remove(currentUser)
     tripToQuit.save()
     return redirect('/congrats')
+
+def wipeDB(request):
+    User.objects.all().delete()
+    return redirect('/')

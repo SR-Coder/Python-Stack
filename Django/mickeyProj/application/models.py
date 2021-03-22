@@ -1,4 +1,26 @@
 from django.db import models
+import re
+
+class MickeyManager(models.Manager):
+    def registration_validator(self, postData):
+        errors ={}
+        if len(postData['fName']) < 2:
+            errors['fName'] = 'First names must be greater than 2 characters!'
+        if len(postData['lName']) < 2:
+            errors['lName'] = 'Last names must be greater than 2 characters!'
+        EMAIL_REGEX = re.compile(r'^[a-zA-Z0-9.+_-]+@[a-zA-Z0-9._-]+\.[a-zA-Z]+$')
+        if not EMAIL_REGEX.match(postData['email']):
+            errors['email'] = 'Invalid email address!!'
+        if len(postData['password']) < 7:
+            errors['password'] = 'Passwords must be 8 characters or greater!!'
+        if postData['password'] != postData['chkPassword']:
+            errors['chkPassword'] = 'Passwords dont match!!'
+        # things you may want to do...
+        #  you NEED TO CHECK TO SEE IF A EMAIL IS UNIQUE!!!!
+        return errors
+    def login_validator(self, postData):
+        pass
+        
 
 # Create your models here.
 class User(models.Model):
@@ -12,6 +34,7 @@ class User(models.Model):
     # reviews.all() (phantom property)
     # trips.all()
     # trips_joined.all()
+    objects = MickeyManager()
 
     def __str__(self):
         s = '\n'
