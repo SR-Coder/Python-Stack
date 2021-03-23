@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body class="container p-5 bg-secondary">
+    <div class="row">
+        <div class="col">
+            <h1>Add a show</h1>
+            <div>
+                {% if messages %}
+                <ul>
+                    {% for message in messages %}
+                    <li class="m-0">
+                        <p class="text-danger m-0">{{message}}</p>
+                    </li>
+                    {% endfor %}
+                </ul>
+                {% endif %}
+            </div>
+            <form action="/shows/addShow" method="post">
+                {% csrf_token %}
+                <input class="form-control" name='title' type="text" placeholder="Title">
+                <input class="form-control" name='network' type="text" placeholder="Network">
+                <label class="" for="release_date">Release Date</label>
+                <input class="form-control" name='release_date' type="date">
+                <input class="form-control" name="desc" type="text" placeholder="Description">
+                <button type="submit">Add Show</button>
+            </form>
+            <a href="/shows" class="btn btn-light">Go Back</a>
+        </div>
+    </div>
+    
+</body>
+</html>
